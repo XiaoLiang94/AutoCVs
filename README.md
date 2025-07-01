@@ -18,8 +18,8 @@ A Python script for demonstrating the automated CV measurements at various tempe
 
 # Python packages required for device control
 Fluigent.SDK (for Fluigent devices control)
-hardpotato (for electrochemical workstation control)
-mvsdk (for camera control)
+hardpotato (for CHI electrochemical workstation control)
+mvsdk (for Minsvison camera control)
 
 # A schematic of the automated workflow to help understand the code logic
 
