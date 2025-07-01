@@ -3,9 +3,11 @@
 ## Automated CV measurements under various experimental conditions 
 
 # Description
-This code is for conducting automated CV measurements with real-time adjustments of various experimental conditions, including temperature, electrolyte composition, concentration, and flow rate. This code also includes the features, including in-situ electrode cleaning and removal of bubbles generated during the measurements, to address challenges encountered in electrochemical measurements.
+This code is for conducting the automated cyclic voltammetry (CV) measurements with real-time adjustments of various experimental conditions, including temperature, electrolyte composition, concentration, and flow rate. This code also includes the functions, including in-situ electrode cleaning and removal of bubbles generated during the measurements, to address challenges encountered in the high-througput electrochemical measurements. 
 
-# Hardware devices required
+A Python script for demonstrating the automated CV measurements at various temperatures is attached. The settings for other experimental conditions can be directly modified in the script as needed for the experiment.
+
+# Hardware devices
 * Four pressure pumps (Flow EZ™, Fluigent)
 * Four flow rate sensors (FLU-M+, Fluigent)
 * A multi-switch valve (M-SWITCH™, Fluigent)
@@ -14,20 +16,17 @@ This code is for conducting automated CV measurements with real-time adjustments
 * A CMOS camera (MS-XG903GC/M, Minsvison)
 * A water bath (ARCTIC A10 with a SC150 controller, Thermo Scientific)
 
-# Python packages required 
+# Python packages required for device control
 Fluigent.SDK (for Fluigent devices control)
 hardpotato (for electrochemical workstation control)
+mvsdk (for camera control)
 
+# A schematic of the automated workflow to help understand the code logic
 
-
-
-
-# A schematic of the automated workflow
 
 # Details
 ### Folders
-**Main code**: 
-**Demo**: 
+**Main code**: A Python script for automated CV tests at various Temperatures
 
 ### User Instructions
 
