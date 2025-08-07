@@ -106,7 +106,7 @@ class CameraRecorder:
 
 
 
-### Experimental parameters setting ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Experimental parameter settings ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Set Temparatures ##
 set_working_temps = [10, 20, 30, 40, 50] 
@@ -198,9 +198,9 @@ valve2_positions = [0,1]  # position 0 is for the catholyte (0.5M NaOH); positio
 
 
 
-### Connecting with devices and showing current parameters ###-------------------------------------------------------------------------------------------------------------------
+### Connect to devices and dispaly current settings ###-------------------------------------------------------------------------------------------------------------------
 
-## Connecting with water bath ##
+## Connect to water bath ##
 try: 
     bath = serial.Serial(
         'COM5',
@@ -228,13 +228,13 @@ except serial.SerialException as e:
     print("Serial connection failed", e)
     print("++++++++++++++++++++++++++")
 
-## Connecting with flow sensors and pumps ##
+## Connect to flow sensors and pumps ##
 print('Current flow rate A1: {}'.format(fgt_get_sensorValue(0)))
 print('Current flow rate A2: {}'.format(fgt_get_sensorValue(1)))
 print('Current flow rate B1: {}'.format(fgt_get_sensorValue(2)))
 print('Current flow rate B2: {}'.format(fgt_get_sensorValue(3)))
 
-## Connecting with Valve ##
+## Connect to Valve ##
 # Get valve indices
 valve_indices = range(fgt_get_valveChannelCount())
 # Two valve used 
@@ -246,18 +246,18 @@ print("Current valve 2 position {}".format(fgt_get_valvePosition(valve2_index)))
 if not valve_indices:
     raise Exception("No valve channels found")
 
-## Connecting with Electrochemical workstation ##
+## Connect to Electrochemical workstation ##
 # Initialization:
 hp.potentiostat.Setup(model=model, path=path, folder=folder)
 
 
 
-### Running experiments ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Run experiments ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Running measurements for alchols i at different Temparetures
+## Run measurements for alchols i at different temparetures
 for valve_position in valve1_positions:
     
-    # Washing the system after finishing each alchol test
+    # Wash the system after finishing each alchol test
     print()
     print('---- Put valve1 position to 0 to wash the system ----')
     
@@ -275,7 +275,7 @@ for valve_position in valve1_positions:
     print('Waiting {:.0f} seconds...'.format(time_for_washing))
     time.sleep(time_for_washing)
     
-    # Waiting the temp to reach the initial value 
+    # Wait the temp to reach the initial value 
     print()
     print('---- Set the tempareture to intinial value {:0.2f} C ----'.format(set_initial_temp))
     
@@ -430,7 +430,7 @@ for valve_position in valve1_positions:
                 camera_thread = threading.Thread(target=camera_recorder.start_recording)
                 camera_thread.start()
 
-                # Waiting after running 
+                # Wait after running 
                 time.sleep(measurement_time)
 
                 print("6. CV test and video recording finished, clean the electrode") 
@@ -486,14 +486,14 @@ for valve_position in valve1_positions:
                 fgt_set_valvePosition(valve1_index, 0) # position 0 is the washing solvent
                 fgt_set_valvePosition(valve2_index, 0) # position 0 is the catholyte, also the washing solvent
 
-                # Waiting  
+                # Wait  
                 time.sleep(time_for_bubble_removal) 
                 
                 flag = True
         
-### Washing system ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Wash the flow system ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-## Washing the system after finishing all tests
+## Wash the system after finishing all tests
 print()
 print('---- All tests finished, put valve position to 0 to wash the system and cool the tempature ----')
 
@@ -556,4 +556,5 @@ while flag != True:
 # Set pressure to 0 before closing. This also stops the regulation
 fgt_set_pressure(0, 0)
 fgt_close()
+
 
