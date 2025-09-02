@@ -187,7 +187,7 @@ Ev2_cleaning = 0.2      # V, second vertex potential
 Efin_cleaning = 0.2     # V, final potential
 sr_cleaning = 0.1         # V/s, scan rate
 dE_cleaning = 0.001      # V, potential increment
-nSweeps_cleaning = 200     # number of sweeps 
+nSweeps_cleaning = 100     # number of sweeps 
 sens_cleaning = 1e-3     # A/V, current sensitivity
 E2_cleaning = 0.5        # V, potential of the second working electrode
 sens2_cleaning = 1e-4    # A/V, current sensitivity of the second working electrode
@@ -556,5 +556,6 @@ while flag != True:
 # Set pressure to 0 before closing. This also stops the regulation
 fgt_set_pressure(0, 0)
 fgt_close()
+
 
 
