@@ -169,8 +169,8 @@ os.makedirs(folder_path, exist_ok=True)
 # CV measurements
 Eini = 0.25     # V, initial potential
 Ev1 = 0.55       # V, first vertex potential
-Ev2 = 0.4      # V, second vertex potential
-Efin = 0.3     # V, final potential
+Ev2 = 0.25      # V, second vertex potential
+Efin = 0.25     # V, final potential
 sr = 0.002         # V/s, scan rate
 dE = 0.001      # V, potential increment
 nSweeps = 1     # number of sweeps 
@@ -191,6 +191,19 @@ nSweeps_cleaning = 100     # number of sweeps
 sens_cleaning = 1e-3     # A/V, current sensitivity
 E2_cleaning = 0.5        # V, potential of the second working electrode
 sens2_cleaning = 1e-4    # A/V, current sensitivity of the second working electrode
+
+# CVs for electrode activation 
+Eini_activation  = 0.4     # V, initial potential
+Ev1_activation  = 0.7       # V, first vertex potential
+Ev2_activation  = 0.4      # V, second vertex potential
+Efin_activation  = 0.4     # V, final potential
+sr_activation  = 0.1         # V/s, scan rate
+dE_activation  = 0.001      # V, potential increment
+nSweeps_activation  = 200     # number of sweeps 
+sens_activation = 1e-2     # A/V, current sensitivity
+E2_activation = 0.5        # V, potential of the second working electrode
+sens2_activation = 1e-4    # A/V, current sensitivity of the second working electrode
+
 
 ## Set Vavle positions ##
 valve1_positions = [0,1,2,3,4,5,6,7] # position 0 is for the washing solvent (0.5M NaOH); positions 1,2,3,4,5,6 are for electrolytes with contianing different alchols; position 7 is for air
@@ -253,6 +266,27 @@ hp.potentiostat.Setup(model=model, path=path, folder=folder)
 
 
 ### Run experiments ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Electrode activation (applied only for new electrodes)
+print('---- Electrode activation ----')
+fgt_set_valvePosition(valve1_index, 0) # position 0 is the washing solvent
+fgt_set_valvePosition(valve2_index, 0) # position 0 is the washing solvent
+fgt_set_sensorRegulation(0, 0, flow_rate_for_flushing_electrode) # set flow rate of A1
+fgt_set_sensorRegulationResponse (0, 60)
+fgt_set_sensorRegulation(1, 1, flow_rate_for_flushing_electrode) # set flow rate of A2
+fgt_set_sensorRegulationResponse (1, 60)
+fgt_set_sensorRegulation(2, 2, flow_rate_for_flushing_electrode) # set flow rate of B1
+fgt_set_sensorRegulationResponse (2, 60)
+fgt_set_sensorRegulation(3, 3, flow_rate_for_flushing_electrode) # set flow rate of B2
+fgt_set_sensorRegulationResponse (3, 60)
+                
+fileName_activation = 'Electrode_activation' # file name 
+header_activation = 'CV_activation'   # header for data filef"file_{x}.txt"
+
+cv = hp.potentiostat.CV(Eini_activation, Ev1_activation, Ev2_activation, Efin_activation, sr_activation, dE_activation, nSweeps_activation, sens_activation, fileName_activation, header_activation)
+
+cv.run()
+
 
 ## Run measurements for alchols i at different temparetures
 for valve_position in valve1_positions:
@@ -326,7 +360,6 @@ for valve_position in valve1_positions:
     print('---- Start testing alchol {:.0f} ----'.format(valve_position))
     
     for j in range(len(set_working_temps)):
-        
         print()
         print('0. Put valve position to 0 and set flow rates to wash the system')
         print('Waiting {:.0f} seconds...'.format(time_for_washing))
@@ -556,6 +589,7 @@ while flag != True:
 # Set pressure to 0 before closing. This also stops the regulation
 fgt_set_pressure(0, 0)
 fgt_close()
+
 
 
 
