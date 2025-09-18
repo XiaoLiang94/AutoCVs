@@ -167,10 +167,10 @@ folder_path = os.path.join(dir_path, folder)
 os.makedirs(folder_path, exist_ok=True)
 
 # CV measurements
-Eini = 0.25     # V, initial potential
+Eini = 0.2     # V, initial potential
 Ev1 = 0.55       # V, first vertex potential
-Ev2 = 0.25      # V, second vertex potential
-Efin = 0.25     # V, final potential
+Ev2 = 0.2      # V, second vertex potential
+Efin = 0.2     # V, final potential
 sr = 0.002         # V/s, scan rate
 dE = 0.001      # V, potential increment
 nSweeps = 1     # number of sweeps 
@@ -592,6 +592,7 @@ while flag != True:
 # Set pressure to 0 before closing. This also stops the regulation
 fgt_set_pressure(0, 0)
 fgt_close()
+
 
 
 
