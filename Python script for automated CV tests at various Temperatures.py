@@ -466,41 +466,10 @@ for valve_position in valve1_positions:
                 # Wait after running 
                 time.sleep(measurement_time)
 
-                print("6. CV test and video recording finished, clean the electrode") 
-                # Flush electrode
-                fgt_set_valvePosition(valve1_index, 0) # position 0 is the washing solvent
-                fgt_set_valvePosition(valve2_index, 0) # position 0 is the catholyte, also the washing solvent
-                fgt_set_sensorRegulation(0, 0, flow_rate_for_flushing_electrode) # set flow rate of A1
-                fgt_set_sensorRegulationResponse (0, 60)
-                fgt_set_sensorRegulation(1, 1, flow_rate_for_flushing_electrode) # set flow rate of A2
-                fgt_set_sensorRegulationResponse (1, 60)
-                fgt_set_sensorRegulation(2, 2, flow_rate_for_flushing_electrode) # set flow rate of B1
-                fgt_set_sensorRegulationResponse (2, 60)
-                fgt_set_sensorRegulation(3, 3, flow_rate_for_flushing_electrode) # set flow rate of B2
-                fgt_set_sensorRegulationResponse (3, 60)
-                
-                time.sleep(time_for_flow_rate_stable + time_for_flushing_electrode)
-                
-                # Run CVs for electrode cleaning                
-                fgt_set_sensorRegulation(0, 0, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of A1
-                fgt_set_sensorRegulationResponse (0, 60)
-                fgt_set_sensorRegulation(1, 1, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of A2
-                fgt_set_sensorRegulationResponse (1, 60)
-                fgt_set_sensorRegulation(2, 2, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of B1
-                fgt_set_sensorRegulationResponse (2, 60)
-                fgt_set_sensorRegulation(3, 3, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of B2
-                fgt_set_sensorRegulationResponse (3, 60)
-                
-                time.sleep(time_for_flow_rate_stable)
-                
-                fileName_cleaning = '{:.0f}_'.format(valve_position)+'_{:.0f}oC'.format(set_working_temps[j]) # base file name for data file
-                header_cleaning = 'CV_cleaning'   # header for data filef"file_{x}.txt"
+                print("6. CV test and video recording finished") 
 
-                cv = hp.potentiostat.CV(Eini_cleaning, Ev1_cleaning, Ev2_cleaning, Efin_cleaning, sr_cleaning, dE_cleaning, nSweeps_cleaning, sens_cleaning, fileName_cleaning, header_cleaning)
-
-                cv.run()
-                
-                print ("7. Introduce air bubbles to remove the trapped bubbles")
+                # Remove trapped bubbles
+                print ("7. Introduce air columns to remove the trapped bubbles")
                 fgt_set_sensorRegulation(0, 0, flow_rate_for_bubble_removal) # set flow rate of A1
                 fgt_set_sensorRegulationResponse (0, 60)
                 fgt_set_sensorRegulation(1, 1, flow_rate_for_bubble_removal) # set flow rate of A2
@@ -524,6 +493,40 @@ for valve_position in valve1_positions:
                 
                 flag = True
         
+    # Clean the electrode before testing next alcohol
+    fgt_set_valvePosition(valve1_index, 0) # position 0 is the washing solvent
+    fgt_set_valvePosition(valve2_index, 0) # position 0 is the catholyte, also the washing solvent
+    fgt_set_sensorRegulation(0, 0, flow_rate_for_flushing_electrode) # set flow rate of A1
+    fgt_set_sensorRegulationResponse (0, 60)
+    fgt_set_sensorRegulation(1, 1, flow_rate_for_flushing_electrode) # set flow rate of A2
+    fgt_set_sensorRegulationResponse (1, 60)
+    fgt_set_sensorRegulation(2, 2, flow_rate_for_flushing_electrode) # set flow rate of B1
+    fgt_set_sensorRegulationResponse (2, 60)
+    fgt_set_sensorRegulation(3, 3, flow_rate_for_flushing_electrode) # set flow rate of B2
+    fgt_set_sensorRegulationResponse (3, 60)
+                
+    time.sleep(time_for_flow_rate_stable + time_for_flushing_electrode)
+                
+    # Run CVs for electrode cleaning                
+    fgt_set_sensorRegulation(0, 0, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of A1
+    fgt_set_sensorRegulationResponse (0, 60)
+    fgt_set_sensorRegulation(1, 1, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of A2
+    fgt_set_sensorRegulationResponse (1, 60)
+    fgt_set_sensorRegulation(2, 2, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of B1
+    fgt_set_sensorRegulationResponse (2, 60)
+    fgt_set_sensorRegulation(3, 3, flow_rate_for_cleaning_electrode_with_CVs) # set flow rate of B2
+    fgt_set_sensorRegulationResponse (3, 60)
+                
+    time.sleep(time_for_flow_rate_stable)
+                
+    fileName_cleaning = '{:.0f}_'.format(valve_position)+'_{:.0f}oC'.format(set_working_temps[j]) # base file name for data file
+    header_cleaning = 'CV_cleaning'   # header for data filef"file_{x}.txt"
+
+    cv = hp.potentiostat.CV(Eini_cleaning, Ev1_cleaning, Ev2_cleaning, Efin_cleaning, sr_cleaning, dE_cleaning, nSweeps_cleaning, sens_cleaning, fileName_cleaning, header_cleaning)
+
+    cv.run()
+
+
 ### Wash the flow system ###--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ## Wash the system after finishing all tests
@@ -589,6 +592,7 @@ while flag != True:
 # Set pressure to 0 before closing. This also stops the regulation
 fgt_set_pressure(0, 0)
 fgt_close()
+
 
 
 
