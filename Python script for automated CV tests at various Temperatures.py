@@ -182,7 +182,7 @@ measurement_time =  (Ev1 - Eini) / sr * nSweeps # Measurement time for each CV o
       
 # CVs for electrode cleaning
 Eini_cleaning = 0.2     # V, initial potential
-Ev1_cleaning = 0.6       # V, first vertex potential
+Ev1_cleaning = 0.55       # V, first vertex potential
 Ev2_cleaning = 0.2      # V, second vertex potential
 Efin_cleaning = 0.2     # V, final potential
 sr_cleaning = 0.1         # V/s, scan rate
@@ -592,6 +592,7 @@ while flag != True:
 # Set pressure to 0 before closing. This also stops the regulation
 fgt_set_pressure(0, 0)
 fgt_close()
+
 
 
 
